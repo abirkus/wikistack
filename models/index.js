@@ -3,6 +3,9 @@ const db = new Sequelize('postgres://localhost:5432/wikistack', {
     logging: false
 });
 
+function generateSlug (title) {
+    return title.replace(/\s+/g, '_').replace(/\W/g, '');
+  }
 
 const Page = db.define('page', {
     title: {
@@ -11,7 +14,7 @@ const Page = db.define('page', {
     },
     slug: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: true
     },
     content: {
         type: Sequelize.TEXT,
@@ -35,6 +38,10 @@ const User = db.define('user', {
           }
     }
     });
+
+Page.beforeValidate((pageInstance, optionsObject)=>{
+    pageInstance.slug = generateSlug(pageInstance.title)
+})
 
 module.exports = {
     db, Page, User
