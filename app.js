@@ -1,8 +1,8 @@
 const express = require("express");
 const morgan = require("morgan");
 const bodyParser = require("body-parser");
-const { db } = require('./models') // default for require to look for index.js
-// { } we are destructing the file to access all things within the file 
+const models = require('./models') // default for require to look for index.js
+// { } we are destructuring the file to access all things within the file 
 
 
 const app = express();
@@ -16,20 +16,24 @@ app.get("/", (req, res) => {
     console.log('hello world');
   });
 
-db.authenticate().
-    then(() => {
-    console.log('connected to the database');
-    })
-
-const Page = db.define()
-
-
-const User = db.define()
-
-
+// db.authenticate().
+//     then(() => {
+//     console.log('connected to the database');
+//     })
 
 const PORT = 3000;
 
-app.listen(PORT, () => {
-  console.log(`App listening in port ${PORT}`);
-});
+const connect = async() => {
+    console.log("we are connected to the database")
+    await models.db.sync({force: true});
+    console.log("we are synced")
+    app.listen(PORT, () => {
+        console.log(`App listening in port ${PORT}`);
+      });
+}
+
+connect();
+
+
+
+
