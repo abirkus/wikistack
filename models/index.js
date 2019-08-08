@@ -35,7 +35,6 @@ const User = db.define('user', {
           }
     }
     });
-console.log(db);
 
 module.exports = {
     db, Page, User

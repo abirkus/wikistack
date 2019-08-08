@@ -3,11 +3,18 @@ const morgan = require("morgan");
 const bodyParser = require("body-parser");
 const models = require('./models') // default for require to look for index.js
 // { } we are destructuring the file to access all things within the file 
-
+const wikiRouter = require('./routes/wiki')
+//const userRouter = require('./routes/user')
 
 const app = express();
 
+app.get('/', (req, res, next) => {
+    res.redirect('/wiki');
+})
 
+app.use("/wiki", wikiRouter);
+
+app.use("/user", userRouter);
 app.use(morgan("dev"));
 app.use(express.static(__dirname + "/public"));
 app.use(bodyParser.urlencoded({extended: false}))
@@ -15,6 +22,8 @@ app.use(bodyParser.urlencoded({extended: false}))
 app.get("/", (req, res) => {
     console.log('hello world');
   });
+
+
 
 // db.authenticate().
 //     then(() => {
