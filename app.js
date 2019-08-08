@@ -36,7 +36,7 @@ const PORT = 3000;
 
 const connect = async() => {
     console.log("we are connected to the database")
-    await models.db.sync({force: true});
+    await models.db.sync({force: false});
     console.log("we are synced")
     app.listen(PORT, () => {
         console.log(`App listening in port ${PORT}`);

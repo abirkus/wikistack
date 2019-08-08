@@ -1,7 +1,7 @@
 const html = require("html-template-tag");
 const layout = require("./layout");
-
-module.exports = (pages) => layout(html`
+const wikipage = require("./wikipage.js");
+module.exports = (pages) => layout(`  
   <h3>Pages</h3>
   <hr>
   <form method="GET" action="/wiki/search">
@@ -11,6 +11,8 @@ module.exports = (pages) => layout(html`
   <hr>
   <ul class="list-unstyled">
     <ul>
-      <!-- PLACEHOLDER LIST OF PAGES -->
+    ${pages.map(function(page){
+          return '<li><a href='+ page.slug + '>' + page.title + '</a></li>'
+          }).join('')}
     </ul>
   </ul>`);
